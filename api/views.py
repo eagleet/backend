@@ -36,7 +36,7 @@ def getRoutes(request):
             'description': 'Creates an existing note with data sent in post request'
         },
         {
-            'Endpoint': '/suppliers/id/delete/',
+            'Endpoint': '/supplier/id/delete/',
             'method': 'DELETE',
             'body': None,
             'description': 'Deletes and exiting note'

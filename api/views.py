@@ -12,31 +12,31 @@ def getRoutes(request):
 
     routes = [
         {
-            'Endpoint': '/supplier/',
+            'Endpoint': '/suppliers/',
             'method': 'GET',
             'body': None,
-            'description': 'Returns an array of notes'
+            'description': 'Returns an array of suppliers'
         },
         {
-            'Endpoint': '/supplier/id',
+            'Endpoint': '/suppliers/id',
             'method': 'GET',
             'body': None,
             'description': 'Returns a single note object'
         },
         {
-            'Endpoint': '/supplier/create/',
+            'Endpoint': '/suppliers/create/',
             'method': 'POST',
             'body': {'body': ""},
             'description': 'Creates new note with data sent in post request'
         },
         {
-            'Endpoint': '/supplier/id/update/',
+            'Endpoint': '/suppliers/id/update/',
             'method': 'PUT',
             'body': {'body': ""},
             'description': 'Creates an existing note with data sent in post request'
         },
         {
-            'Endpoint': '/supplir/id/delete/',
+            'Endpoint': '/suppliers/id/delete/',
             'method': 'DELETE',
             'body': None,
             'description': 'Deletes and exiting note'

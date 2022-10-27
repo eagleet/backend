@@ -55,3 +55,14 @@ def getSupplier(request, pk):
     suppliers = Fornecedor.objects.get(id=pk)
     serializer = FornecedorSerializer(suppliers, many=False)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def updateSupplier(request, pk):
+    data = request.data
+    fornecedor = Fornecedor.objects.get(id=pk)
+    serializer = FornecedorSerializer(instance=fornecedor, data=data)
+    
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)

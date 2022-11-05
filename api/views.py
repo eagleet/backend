@@ -1,9 +1,19 @@
+# from multiprocessing import context
+# from re import search
+# from warnings import filters
 from django.shortcuts import render
+# from django.http import response
 # from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Fornecedor
 from .serializers import FornecedorSerializer
+# from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+# from django_filters.rest_framework import DjangoFilterBackend
+# from rest_framework import filters
+
+# from api import serializers
+# from rest_framework.serializers import Serializer
 
 # Create your views here.
 
@@ -21,19 +31,19 @@ def getRoutes(request):
             'Endpoint': '/suppliers/id',
             'method': 'GET',
             'body': None,
-            'description': 'Returns a single note object'
+            'description': 'Returns a single supplier object'
         },
         {
             'Endpoint': '/suppliers/create/',
             'method': 'POST',
             'body': {'body': ""},
-            'description': 'Creates new note with data sent in post request'
+            'description': 'Creates new supplier with data sent in post request'
         },
         {
             'Endpoint': '/suppliers/id/update/',
             'method': 'PUT',
             'body': {'body': ""},
-            'description': 'Creates an existing note with data sent in post request'
+            'description': 'Creates an existing supplier with data sent in post request'
         },
         {
             'Endpoint': '/supplier/id/delete/',
@@ -43,6 +53,55 @@ def getRoutes(request):
         },
     ]
     return Response(routes)
+
+
+# @api_view(['GET', 'POST'])
+# def getSupplier(request):
+
+#     if request.method == 'GET':
+#         return getSupplierList(request)
+
+#     if request.method == 'POST':
+#         return createSupplier(request)
+
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def getSupplier(request, pk):
+
+#     if request.method == 'GET':
+#         return getNoteDetail(request, pk)
+
+#     if request.method == 'PUT':
+#         return updateNote(request, pk)
+
+#     if request.method == 'DELETE':
+#         return deleteNote(request, pk)
+
+
+
+
+# class SupplierFiniteView(ListCreateAPIView):
+#     serializer_class = FornecedorSerializer
+#     filter_backends=[DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+
+#     filterset_fields = ['id', 'nome', 'nif', 'morada', 'email', 'telefone']
+#     search_fields = ['id', 'nome', 'nif', 'morada', 'email', 'telefone']
+#     ordering_fields = ['id', 'nome', 'nif', 'morada', 'email', 'telefone']
+
+    
+#     def perform_create(self, serializer):
+#         return serializer.save(user=self.request.user)
+
+#     def get_queryset(self):
+#         return Fornecedor.objects.filter(user=self.request.user)
+
+# class SupplierDetailAPIView(RetrieveUpdateDestroyAPIView):
+#     serializer_class = FornecedorSerializer
+#     lookup_field = "id"
+
+#     def get_queryset(self):
+#         return Fornecedor.objects.filter(owner=self.request.user)
+
 
 @api_view(['GET'])
 def getSuppliers(request):
@@ -54,6 +113,13 @@ def getSuppliers(request):
 def getSupplier(request, pk):
     suppliers = Fornecedor.objects.get(id=pk)
     serializer = FornecedorSerializer(suppliers, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createSupplier(request): 
+    serializer = FornecedorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
     return Response(serializer.data)
 
 @api_view(['POST'])

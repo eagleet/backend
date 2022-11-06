@@ -5,9 +5,13 @@ from django.shortcuts import render
 # from django.http import response
 # from django.http import JsonResponse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from .models import Fornecedor
 from .serializers import FornecedorSerializer
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 # from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 # from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework import filters
@@ -103,19 +107,48 @@ def getRoutes(request):
 #         return Fornecedor.objects.filter(owner=self.request.user)
 
 
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        # ...
+
+        return token
+    
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
 @api_view(['GET'])
+def getRoutes(request):
+    routes = [
+        '/api/token',
+        '/api/token/refresh',
+    ]
+
+    return Response(routes)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getSuppliers(request):
+    user = request.user
     suppliers = Fornecedor.objects.all()
     serializer = FornecedorSerializer(suppliers, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getSupplier(request, pk):
     suppliers = Fornecedor.objects.get(id=pk)
     serializer = FornecedorSerializer(suppliers, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def createSupplier(request): 
     serializer = FornecedorSerializer(data=request.data)
     if serializer.is_valid():
@@ -123,6 +156,7 @@ def createSupplier(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def updateSupplier(request, pk):
     data = request.data
     fornecedor = Fornecedor.objects.get(id=pk)
@@ -132,3 +166,4 @@ def updateSupplier(request, pk):
         serializer.save()
 
     return Response(serializer.data)
+

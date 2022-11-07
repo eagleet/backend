@@ -31,7 +31,7 @@ urlpatterns=[
 
     path('records/', views.getRecords, name='registos'),
     path('records/create/', views.createRecord, name='create-registo'),
-    path('records/update/', views.updateRecord, name='update-registo'),
+    path('records/<str:pk>/update/', views.updateRecord, name='update-registo'),
     path('records/<str:pk>/', views.getRecord, name='update-registo'),
 
 #############################

@@ -7,8 +7,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import Fornecedor, RegistosRespostas
-from .serializers import FornecedorSerializer, RegistoSerializer
+from .models import RegistosRespostas, Fornecedor
+from .serializers import RecordSerializer, FornecedorSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -137,29 +137,29 @@ def updateSupplier(request, pk):
 #############################
 
 @api_view(['GET'])
-def getRegistos(request):
+def getRecords(request):
     registos = RegistosRespostas.objects.all()
-    serializer = RegistoSerializer(registos, many=True)
+    serializer = RecordSerializer(registos, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getRegisto(request, pk):
+def getRecord(request, pk):
     registo = RegistosRespostas.objects.get(id=pk)
     serializer = FornecedorSerializer(registo, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])
-def createRegisto(request): 
-    serializer = RegistoSerializer(data=request.data)
+def createRecord(request): 
+    serializer = RecordSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
 
 @api_view(['POST'])
-def updateRegisto(request, pk):
+def updateRecord(request, pk):
     data = request.data
     registo = RegistosRespostas.objects.get(id=pk)
-    serializer = RegistoSerializer(instance=registo, data=data)
+    serializer = RecordSerializer(instance=registo, data=data)
     
     if serializer.is_valid():
         serializer.save()

@@ -8,7 +8,7 @@ class FornecedorSerializer(ModelSerializer):
         model = Fornecedor
         fields = ['id', 'nome', 'nif', 'morada', 'email', 'telefone']
 
-class RegistoSerializer(ModelSerializer):
+class RecordSerializer(ModelSerializer):
     class Meta:
         model = RegistosRespostas
         fields = ['registo', 'questao', 'resposta']

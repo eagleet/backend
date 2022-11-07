@@ -138,7 +138,7 @@ class TipoRegistos(models.Model):
         return self.name
 
 class QuestoesRegistos(models.Model):
-    tipoderegisto = models.ManyToManyField(TipoRegistos)
+    tipoderegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True)
     questao = models.CharField(max_length=500, null=True)
 
     class Meta: verbose_name_plural = "Registos - Questões"

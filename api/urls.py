@@ -29,10 +29,10 @@ urlpatterns=[
 #  REGISTOS  #
 #############################    
 
-    path('registos/', views.getRegistos, name='registos'),
-    path('registos/create', views.createRegisto, name='create-registo'),
-    path('registos/update', views.updateRegisto, name='update-registo'),
-    path('registo/<str:pk>/', views.getRegisto, name='update-registo'),
+    path('records/', views.getRecords, name='registos'),
+    path('records/create/', views.createRecord, name='create-registo'),
+    path('records/update/', views.updateRecord, name='update-registo'),
+    path('records/<str:pk>/', views.getRecord, name='update-registo'),
 
 #############################
 #  AUTHENTICATION  #

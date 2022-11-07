@@ -17,6 +17,8 @@ urlpatterns=[
     path('suppliers/<str:pk>/', views.getSupplier, name='fornecedor'),
 
     path('registos/', views.getRegistos, name='registos'),
+    path('registos/create', views.createRegisto, name='create-registo'),
+    path('registos/update', views.updateRegisto, name='update-registo'),
 
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

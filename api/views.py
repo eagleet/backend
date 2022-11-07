@@ -21,6 +21,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
 
+#############################
+#  ROUTES  #
+#############################
+
 @api_view(['GET'])
 def getRoutes(request):
 
@@ -53,11 +57,118 @@ def getRoutes(request):
             'Endpoint': '/supplier/id/delete/',
             'method': 'DELETE',
             'body': None,
-            'description': 'Deletes and exiting note'
+            'description': 'Deletes and exiting supplier'
+        },
+                {
+            'Endpoint': '/api/token',
+            'method': 'POST',
+            'body': None,
+            'description': 'Returns Refresh and Access Token'
+        },
+                {
+            'Endpoint': '/api/token/refresh',
+            'method': 'POST',
+            'body': None,
+            'description': 'Returns a new Access Token'
         },
     ]
     return Response(routes)
 
+#############################
+#  AUTHENTICATION  #
+#############################
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        # ...
+
+        return token
+    
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+#############################
+#  SUPPLIERS  #
+#############################
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getSuppliers(request):
+    user = request.user
+    suppliers = Fornecedor.objects.all()
+    serializer = FornecedorSerializer(suppliers, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getSupplier(request, pk):
+    suppliers = Fornecedor.objects.get(id=pk)
+    serializer = FornecedorSerializer(suppliers, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createSupplier(request): 
+    serializer = FornecedorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def updateSupplier(request, pk):
+    data = request.data
+    fornecedor = Fornecedor.objects.get(id=pk)
+    serializer = FornecedorSerializer(instance=fornecedor, data=data)
+    
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+#############################
+#  REGISTOS  #
+#############################
+
+@api_view(['GET'])
+def getRegistos(request):
+    registos = RegistosRespostas.objects.all()
+    serializer = RegistoSerializer(registos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getSupplier(request, pk):
+    registo = RegistosRespostas.objects.get(id=pk)
+    serializer = FornecedorSerializer(registo, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createRegisto(request): 
+    serializer = RegistoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def updateRegisto(request, pk):
+    data = request.data
+    registo = RegistosRespostas.objects.get(id=pk)
+    serializer = RegistoSerializer(instance=registo, data=data)
+    
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+#############################
+#  NOTES  #
+#############################
 
 # @api_view(['GET', 'POST'])
 # def getSupplier(request):
@@ -105,71 +216,3 @@ def getRoutes(request):
 
 #     def get_queryset(self):
 #         return Fornecedor.objects.filter(owner=self.request.user)
-
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        # Add custom claims
-        token['username'] = user.username
-        # ...
-
-        return token
-    
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
-
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [
-        '/api/token',
-        '/api/token/refresh',
-    ]
-
-    return Response(routes)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getSuppliers(request):
-    user = request.user
-    suppliers = Fornecedor.objects.all()
-    serializer = FornecedorSerializer(suppliers, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getSupplier(request, pk):
-    suppliers = Fornecedor.objects.get(id=pk)
-    serializer = FornecedorSerializer(suppliers, many=False)
-    return Response(serializer.data)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def createSupplier(request): 
-    serializer = FornecedorSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def updateSupplier(request, pk):
-    data = request.data
-    fornecedor = Fornecedor.objects.get(id=pk)
-    serializer = FornecedorSerializer(instance=fornecedor, data=data)
-    
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def getRegistos(request):
-    registos = RegistosRespostas.objects.all()
-    serializer = RegistoSerializer(registos, many=True)
-    return Response(serializer.data)
-

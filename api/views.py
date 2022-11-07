@@ -7,8 +7,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import RegistosRespostas, Fornecedor
-from .serializers import RecordSerializer, FornecedorSerializer
+from .models import RegistosRespostas, Fornecedor, TipoRegistos,Registos
+from .serializers import RecordSerializer, FornecedorSerializer, RecordTypeSerializer, RecordResponsesSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -138,19 +138,27 @@ def updateSupplier(request, pk):
 
 @api_view(['GET'])
 def getRecords(request):
-    registos = RegistosRespostas.objects.all()
-    serializer = RecordSerializer(registos, many=True)
-    return Response(serializer.data)
+    respostasregistos = RegistosRespostas.objects.all()
+    tipoderegisto = TipoRegistos.objects.all()
+    registos = Registos.objects.all()
+
+    registosrespostasserializer = RecordResponsesSerializer(respostasregistos, many=True)
+    tipoderegistoserializer = RecordTypeSerializer(tipoderegisto, many=True)
+    registos = RecordSerializer(registos, many=True)
+    return Response({'registosrespostas': registosrespostasserializer.data,
+        'tipoderegisto': tipoderegistoserializer.data,
+        'registos': registos.data
+        })
 
 @api_view(['GET'])
 def getRecord(request, pk):
     registo = RegistosRespostas.objects.get(id=pk)
-    serializer = RecordSerializer(registo, many=False)
+    serializer = RecordResponsesSerializer(registo, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])
 def createRecord(request): 
-    serializer = RecordSerializer(data=request.data)
+    serializer = RecordResponsesSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
@@ -159,7 +167,7 @@ def createRecord(request):
 def updateRecord(request, pk):
     data = request.data
     registo = RegistosRespostas.objects.get(id=pk)
-    serializer = RecordSerializer(instance=registo, data=data)
+    serializer = RecordResponsesSerializer(instance=registo, data=data)
     
     if serializer.is_valid():
         serializer.save()

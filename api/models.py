@@ -153,8 +153,8 @@ class Registos(models.Model):
     class Meta: verbose_name_plural = "Registos"
 
 class RegistosRespostas(models.Model):
-    registo = models.ManyToManyField(Registos)
-    questao = models.ManyToManyField(QuestoesRegistos)
+    registo = models.ForeignKey(Registos, on_delete=models.SET_NULL, null=True)
+    questao = models.ForeignKey(QuestoesRegistos, on_delete=models.SET_NULL, null=True)
     resposta = models.CharField(max_length=50, null=True)
 
     class Meta: verbose_name_plural = "Registos - Respostas"

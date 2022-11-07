@@ -145,7 +145,7 @@ def getRecords(request):
 @api_view(['GET'])
 def getRecord(request, pk):
     registo = RegistosRespostas.objects.get(id=pk)
-    serializer = FornecedorSerializer(registo, many=False)
+    serializer = RecordSerializer(registo, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])

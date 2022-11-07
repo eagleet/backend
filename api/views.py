@@ -143,7 +143,7 @@ def getRegistos(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getSupplier(request, pk):
+def getRegisto(request, pk):
     registo = RegistosRespostas.objects.get(id=pk)
     serializer = FornecedorSerializer(registo, many=False)
     return Response(serializer.data)
@@ -180,6 +180,7 @@ def updateRegisto(request, pk):
 #         return createSupplier(request)
 
 
+
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def getSupplier(request, pk):
 
@@ -191,7 +192,6 @@ def updateRegisto(request, pk):
 
 #     if request.method == 'DELETE':
 #         return deleteNote(request, pk)
-
 
 
 

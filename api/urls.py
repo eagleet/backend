@@ -9,16 +9,34 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns=[
+
+#############################
+#  SINGLE PAGES  #
+#############################  
+
     path('', views.getRoutes, name='routes'),
+
+#############################
+#  SUPPLIERS  #
+#############################  
+
     path('suppliers/', views.getSuppliers, name='fornecedores'),    
     path('suppliers/create/', views.createSupplier, name='create-fornecedor'),
     path('suppliers/<str:pk>/update/', views.updateSupplier, name='update-fornecedor'),
-    
     path('suppliers/<str:pk>/', views.getSupplier, name='fornecedor'),
+
+#############################
+#  REGISTOS  #
+#############################    
 
     path('registos/', views.getRegistos, name='registos'),
     path('registos/create', views.createRegisto, name='create-registo'),
     path('registos/update', views.updateRegisto, name='update-registo'),
+    path('registo/<str:pk>/', views.getRegisto, name='update-registo'),
+
+#############################
+#  AUTHENTICATION  #
+#############################
 
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

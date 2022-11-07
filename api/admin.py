@@ -13,3 +13,8 @@ admin.site.register(Produto),
 admin.site.register(Lote),
 admin.site.register(IngredientesReceita),
 admin.site.register(FornecedorContactos),
+admin.site.register(TipoRegistos),
+admin.site.register(QuestoesRegistos),
+admin.site.register(Registos),
+admin.site.register(RegistosRespostas),
+

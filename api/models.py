@@ -127,3 +127,37 @@ class Lote(models.Model):
     
     def __str__(self):
         return self.lote
+
+class TipoRegistos(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    periocidade = models.IntegerField(null=True)
+
+    class Meta: verbose_name_plural = "Tipo de Registo"
+
+    def __str__(self):
+        return self.name
+
+class QuestoesRegistos(models.Model):
+    tipoderegisto = models.ManyToManyField(TipoRegistos)
+    questao = models.CharField(max_length=500, null=True)
+
+    class Meta: verbose_name_plural = "Registos - Questões"
+
+    def __str__(self):
+        return self.questao
+
+class Registos(models.Model):
+    dataregisto = models.DateTimeField(auto_now=False, auto_now_add=False)
+    tiporegisto = models.ManyToManyField(TipoRegistos)
+
+    class Meta: verbose_name_plural = "Registos"
+
+class RegistosRespostas(models.Model):
+    registo = models.ManyToManyField(Registos)
+    questao = models.ManyToManyField(QuestoesRegistos)
+    resposta = models.CharField(max_length=50, null=True)
+
+    class Meta: verbose_name_plural = "Registos - Respostas"
+
+    def __str__(self):
+        return self.resposta

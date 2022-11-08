@@ -11,13 +11,12 @@ class FornecedorSerializer(ModelSerializer):
 class RecordTypeSerializer(ModelSerializer):
     class Meta:
         model = TipoRegistos
-        fields = [ 'id','name', 'periocidade',]        
+        fields = [ 'id','name', 'periocidade',]
 
 class RecordResponsesSerializer(ModelSerializer):
     class Meta:
         model = RegistosRespostas
         fields = ['registo', 'questao', 'resposta', 'tipoderegisto']
-        readonly = ['name']
 
 
 class RecordSerializer(ModelSerializer):

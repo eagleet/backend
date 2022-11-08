@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 class User(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+#############################
+#  SUPPLIERS  #
+#############################      
+
 class Fornecedor(models.Model):
 
     nome = models.CharField(max_length=100, null=True)
@@ -128,6 +132,10 @@ class Lote(models.Model):
     def __str__(self):
         return self.lote
 
+#############################
+#  RECORDS  #
+#############################    
+
 class TipoRegistos(models.Model):
     name = models.CharField(max_length=100, null=True)
     periocidade = models.IntegerField(null=True)
@@ -149,7 +157,6 @@ class QuestoesRegistos(models.Model):
 class Registos(models.Model):
     dataregisto = models.DateTimeField(auto_now=False, auto_now_add=False)
     tiporegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True)
-
 
     class Meta: verbose_name_plural = "Registos"
 

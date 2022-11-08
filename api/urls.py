@@ -33,6 +33,10 @@ urlpatterns=[
     path('records/create/', views.createRecord, name='create-registo'),
     path('records/<str:pk>/update/', views.updateRecord, name='update-registo'),
     path('records/<str:pk>/', views.getRecord, name='update-registo'),
+    
+    path('create-record/', views.createRegisto, name='create-registo'),
+    path('tipos-de-registo/', views.getTipo, name='get-tipos'),
+    path('questoes/<str:pk>/', views.getQuestoes, name='get-questoes'),
 
 #############################
 #  AUTHENTICATION  #

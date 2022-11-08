@@ -7,8 +7,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import RegistosRespostas, Fornecedor, TipoRegistos,Registos
-from .serializers import RecordSerializer, FornecedorSerializer, RecordTypeSerializer, RecordResponsesSerializer
+from .models import RegistosRespostas, Fornecedor, TipoRegistos,Registos, QuestoesRegistos
+from .serializers import RecordQuestionsSerializer, RecordSerializer, FornecedorSerializer, RecordTypeSerializer, RecordResponsesSerializer
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -173,6 +173,31 @@ def updateRecord(request, pk):
     if serializer.is_valid():
         serializer.save()
 
+    return Response(serializer.data)
+
+# Cria novo registo #
+
+@api_view(['POST'])
+def createRegisto(request): 
+    serializer = RecordSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+# GET Tiposderegisto #
+
+@api_view(['GET'])
+def getTipo(request):
+    tiposderegisto = TipoRegistos.objects.all()
+    serializer = RecordTypeSerializer(tiposderegisto, many=True)
+    return Response(serializer.data)
+
+# GET Tiposderegisto.questoes #
+
+@api_view(['GET'])
+def getQuestoes(request, pk):
+    respostasregistos = QuestoesRegistos.objects.filter(tipoderegisto__pk=pk)
+    serializer = RecordQuestionsSerializer(respostasregistos, many=True)
     return Response(serializer.data)
 
 #############################

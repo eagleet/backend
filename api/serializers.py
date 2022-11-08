@@ -1,6 +1,6 @@
 from dataclasses import fields
 from rest_framework.serializers import ModelSerializer
-from .models import Fornecedor, RegistosRespostas, TipoRegistos, Registos
+from .models import Fornecedor, RegistosRespostas, TipoRegistos, Registos,QuestoesRegistos
 
 
 class FornecedorSerializer(ModelSerializer):
@@ -23,3 +23,8 @@ class RecordSerializer(ModelSerializer):
     class Meta:
         model = Registos
         fields = ['dataregisto', 'tiporegisto']
+
+class RecordQuestionsSerializer(ModelSerializer):
+    class Meta:
+        model = QuestoesRegistos
+        fields = ['tipoderegisto', 'questao']

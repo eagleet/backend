@@ -148,16 +148,14 @@ class QuestoesRegistos(models.Model):
 
 class Registos(models.Model):
     dataregisto = models.DateTimeField(auto_now=False, auto_now_add=False)
-    tiporegisto = models.ManyToManyField(TipoRegistos)
+    tiporegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True)
+
 
     class Meta: verbose_name_plural = "Registos"
 
-    def __str__(self):
-        return self.id
-
 class RegistosRespostas(models.Model):
     registo = models.ForeignKey(Registos, on_delete=models.SET_NULL, null=True)
-    questao = models.ForeignKey(QuestoesRegistos, on_delete=models.SET_NULL, null=True)
+    questao = models.ForeignKey(QuestoesRegistos, on_delete=models.SET_NULL, null=True,  related_name='teste')
     resposta = models.CharField(max_length=50, null=True)
 
     class Meta: verbose_name_plural = "Registos - Respostas"

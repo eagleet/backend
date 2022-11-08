@@ -16,7 +16,7 @@ class RecordTypeSerializer(ModelSerializer):
 class RecordResponsesSerializer(ModelSerializer):
     class Meta:
         model = RegistosRespostas
-        fields = ['registo', 'questao', 'resposta', 'tipoderegisto']
+        fields = ['registo', 'questao', 'resposta']
 
 
 class RecordSerializer(ModelSerializer):

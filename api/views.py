@@ -180,7 +180,11 @@ def updateRecord(request, pk):
 @api_view(['POST'])
 def createRegisto(request): 
     serializer = RecordSerializer(data=request.data)
+    questoes = QuestoesRegistos.objects.filter(tipoderegisto=request.data.get('tiporegisto'))
+    print(questoes)
     if serializer.is_valid():
+        perguntas = questoes.count()
+        respostas = RegistosRespostas.objects.bulk_create(questoes,perguntas)
         serializer.save()
     return Response(serializer.data)
 

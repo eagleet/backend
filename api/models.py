@@ -155,10 +155,15 @@ class QuestoesRegistos(models.Model):
         return self.questao
 
 class Registos(models.Model):
-    dataregisto = models.DateTimeField(auto_now=False, auto_now_add=False)
+    dataregisto = models.DateField(auto_now=False, auto_now_add=False)
     tiporegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True)
-
+    created = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(null=False)
+    
     class Meta: verbose_name_plural = "Registos"
+
+    def __str__(self):
+        return str(self.tiporegisto) + ' - ' + str(self.dataregisto)
 
 class RegistosRespostas(models.Model):
     registo = models.ForeignKey(Registos, on_delete=models.SET_NULL, null=True)
@@ -167,5 +172,3 @@ class RegistosRespostas(models.Model):
 
     class Meta: verbose_name_plural = "Registos - Respostas"
 
-    def __str__(self):
-        return self.resposta

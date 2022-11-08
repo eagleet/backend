@@ -152,8 +152,10 @@ class Registos(models.Model):
 
     class Meta: verbose_name_plural = "Registos"
 
+    def __str__(self):
+        return self.id
+
 class RegistosRespostas(models.Model):
-    tipoderegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True)
     registo = models.ForeignKey(Registos, on_delete=models.SET_NULL, null=True)
     questao = models.ForeignKey(QuestoesRegistos, on_delete=models.SET_NULL, null=True)
     resposta = models.CharField(max_length=50, null=True)

@@ -141,20 +141,21 @@ def getRecords(request):
     respostasregistos = RegistosRespostas.objects.all()
     tipoderegisto = TipoRegistos.objects.all()
     registos = Registos.objects.all()
-
-    registosrespostasserializer = RecordResponsesSerializer(respostasregistos, many=True)
     tipoderegistoserializer = RecordTypeSerializer(tipoderegisto, many=True)
     registos = RecordSerializer(registos, many=True)
-    return Response({'registosrespostas': registosrespostasserializer.data,
+    return Response({'registos': registos.data,
         'tipoderegisto': tipoderegistoserializer.data,
-        'registos': registos.data
         })
 
 @api_view(['GET'])
 def getRecord(request, pk):
-    registo = RegistosRespostas.objects.get(id=pk)
-    serializer = RecordResponsesSerializer(registo, many=False)
-    return Response(serializer.data)
+    respostasregistos = RegistosRespostas.objects.get(id=pk)
+    registo = Registos.objects.get(id=respostasregistos.id)
+    registoserializer = RecordSerializer(registo, many=False)
+    registosrespostasserializer = RecordResponsesSerializer(respostasregistos, many=False)
+    return Response({'registosrespostas': registosrespostasserializer.data,
+        'registos': registoserializer.data
+        })
 
 @api_view(['POST'])
 def createRecord(request): 

@@ -139,13 +139,9 @@ def updateSupplier(request, pk):
 @api_view(['GET'])
 def getRecords(request):
     respostasregistos = RegistosRespostas.objects.all()
-    tipoderegisto = TipoRegistos.objects.all()
     registos = Registos.objects.all()
-    tipoderegistoserializer = RecordTypeSerializer(tipoderegisto, many=True)
-    registos = RecordSerializer(registos, many=True)
-    return Response({'registos': registos.data,
-        'tipoderegisto': tipoderegistoserializer.data,
-        })
+    registos1 = RecordSerializer(registos, many=True)
+    return Response(registos1.data)
 
 @api_view(['GET'])
 def getRecord(request, pk):

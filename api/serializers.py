@@ -16,15 +16,15 @@ class RecordTypeSerializer(ModelSerializer):
 class RecordResponsesSerializer(ModelSerializer):
     class Meta:
         model = RegistosRespostas
-        fields = ['registo', 'questao', 'resposta']
+        fields = ['id', 'registo', 'questao', 'resposta']
 
 
 class RecordSerializer(ModelSerializer):
     class Meta:
         model = Registos
-        fields = ['dataregisto', 'tiporegisto', 'status']
+        fields = ['id', 'dataregisto', 'tiporegisto', 'status']
 
 class RecordQuestionsSerializer(ModelSerializer):
     class Meta:
         model = QuestoesRegistos
-        fields = ['tipoderegisto', 'questao']
+        fields = ['id', 'tipoderegisto', 'questao']

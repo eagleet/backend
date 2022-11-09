@@ -156,7 +156,7 @@ class QuestoesRegistos(models.Model):
 
 class Registos(models.Model):
     dataregisto = models.DateField(auto_now=False, auto_now_add=False)
-    tiporegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True)
+    tiporegisto = models.ForeignKey(TipoRegistos, on_delete=models.SET_NULL, null=True, related_name='names')
     created = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(null=False)
     

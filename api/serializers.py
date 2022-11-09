@@ -22,7 +22,7 @@ class RecordResponsesSerializer(ModelSerializer):
 class RecordSerializer(ModelSerializer):
     class Meta:
         model = Registos
-        fields = ['dataregisto', 'tiporegisto']
+        fields = ['dataregisto', 'tiporegisto', 'status']
 
 class RecordQuestionsSerializer(ModelSerializer):
     class Meta:

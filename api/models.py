@@ -24,7 +24,6 @@ class Fornecedor(models.Model):
 
     class Meta: verbose_name_plural = "Fornecedores"
 
-
 class FornecedorContactos(models.Model):
 
     fornecedor = models.ForeignKey(Fornecedor, null=True, on_delete=models.SET_NULL)
@@ -37,7 +36,6 @@ class FornecedorContactos(models.Model):
 
     class Meta: verbose_name_plural = "Contactos Fornecedores"
 
-
 class MP(models.Model):
     nome = models.CharField(max_length=100, null=True)
 
@@ -45,7 +43,6 @@ class MP(models.Model):
 
     def __str__(self):
         return self.nome
-
 
 class Alergeneo(models.Model):
     nome = models.CharField(max_length=100, null=True)
@@ -56,7 +53,6 @@ class Alergeneo(models.Model):
 
     def __str__(self):
         return self.nome
-
 
 class MateriaPrima(models.Model):
     TIPODEPRODUTO = (
